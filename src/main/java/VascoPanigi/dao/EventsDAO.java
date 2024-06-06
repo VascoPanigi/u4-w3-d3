@@ -5,9 +5,11 @@ import VascoPanigi.exceptions.EventNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.util.UUID;
+
 public class EventsDAO {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     public EventsDAO(EntityManager em) {
         this.em = em;
@@ -21,13 +23,13 @@ public class EventsDAO {
         System.out.println("The event " + event.getTitle() + " has been added. Yippieee :D");
     }
 
-    public Event findById(long eventId) {
+    public Event findById(UUID eventId) {
         Event event = em.find(Event.class, eventId);
         if (event == null) throw new EventNotFoundException(eventId);
         return event;
     }
 
-    public void findByIdAndDelete(long eventId) {
+    public void findByIdAndDelete(UUID eventId) {
         Event found = this.findById(eventId);
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
